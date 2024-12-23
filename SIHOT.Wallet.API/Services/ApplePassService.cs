@@ -9,7 +9,7 @@ namespace SIHOT.Wallet.API.Services
     {
         public byte[] CreateGuestPassFile(GuestPass guestPass)
         {
-            ApplePassBuilder builder = CreateBuilder(guestPass);
+            ApplePassBuilder builder = CreateBuilderAsync(guestPass);
 
             return builder.GeneratePkPass();
         }
@@ -23,7 +23,7 @@ namespace SIHOT.Wallet.API.Services
             {
                 Directory.CreateDirectory(outputDir);
             }
-            ApplePassBuilder builder = CreateBuilder(guestPass);
+            ApplePassBuilder builder = CreateBuilderAsync(guestPass);
 
             string filePath = Path.Combine(outputDir, pkPassFileName);
             File.WriteAllBytes(filePath, builder.GeneratePkPass());
@@ -40,7 +40,7 @@ namespace SIHOT.Wallet.API.Services
             return Convert.ToBase64String(hashBytes);
         }
 
-        private ApplePassBuilder CreateBuilder(GuestPass guestPass)
+        private ApplePassBuilder CreateBuilderAsync(GuestPass guestPass)
         {
             string description = "Guest pass";
             string logoText = "";
@@ -56,7 +56,7 @@ namespace SIHOT.Wallet.API.Services
                 TeamIdentifier = AppleWalletConfig.TeamIdentifier,
                 OrganizationName = AppleWalletConfig.OrganizationName,
                 WebServiceURL = AppleWalletConfig.WebServiceURL,
-                AuthenticationToken = await GenerateAuthToken(guestPass.SerialNumber).Result,
+                AuthenticationToken = GenerateAuthToken(guestPass.SerialNumber).Result,
                 Description = description,
                 LogoText = logoText,
                 ForegroundColor = ForegroundColor,
