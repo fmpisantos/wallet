@@ -5,58 +5,22 @@ using SIHOT.Wallet.API.Services;
 namespace SIHOT.Wallet.API.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("v1")]
     public class AppleController : Controller
     {
-        private readonly ApplePassService service;
+        private readonly ApplePassService _passService;
 
         public AppleController(ApplePassService passService)
         {
-            service = passService;
+            _passService = passService;
         }
 
-        [HttpPost]
-        [Route("guestpass")]
+        [HttpPost("guestpass")]
         public IActionResult PostCreateGuestPass([FromBody] GuestPass pass)
         {
-            string filePath = Path.Combine(Environment.CurrentDirectory, $"{pass.SerialNumber}/guestPass.pkpass");
             try
             {
-                Response.Headers.ContentType = "application/vnd.apple.pkpass";
-
-                var cd = new System.Net.Mime.ContentDisposition
-                {
-                    FileName = "guestPass.pkpass",
-                    Inline = false,
-                };
-
-                Response.Headers.Append("Content-Disposition", cd.ToString());
-
-                return File(service.CreateGuestPassFile(pass), "application/vnd.apple.pkpass", "yourpass.pkpass");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                return StatusCode(500, "Internal server error");
-            }
-        }
-
-        [HttpGet]
-        [Route("guestpass")]
-        public IActionResult GetGuestPass([FromQuery] GuestPass guestPass)
-        {
-            try
-            {
-                var passBytes = service.CreateGuestPassFile(guestPass);
-                var cd = new System.Net.Mime.ContentDisposition
-                {
-                    FileName = "guestPass.pkpass",
-                    Inline = false,
-                };
-
-                Response.Headers.Append("Content-Disposition", cd.ToString());
-                Response.Headers.ContentType = "application/vnd.apple.pkpass";
-
+                var passBytes = _passService.CreateGuestPassFile(pass);
                 return File(passBytes, "application/vnd.apple.pkpass", "guestPass.pkpass");
             }
             catch (Exception ex)
@@ -66,14 +30,13 @@ namespace SIHOT.Wallet.API.Controllers
             }
         }
 
-        [HttpPost]
-        [Route("register")]
-        public IActionResult RegisterForPushNotifications([FromBody] PushNotificationRegistration registration)
+        [HttpGet("guestpass")]
+        public IActionResult GetGuestPass([FromQuery] GuestPass guestPass)
         {
             try
             {
-                Console.WriteLine($"Device registered for push notifications: {registration.DeviceLibraryIdentifier}");
-                return Ok("Device registered for push notifications.");
+                var passBytes = _passService.CreateGuestPassFile(guestPass);
+                return File(passBytes, "application/vnd.apple.pkpass", "guestPass.pkpass");
             }
             catch (Exception ex)
             {
@@ -82,14 +45,13 @@ namespace SIHOT.Wallet.API.Controllers
             }
         }
 
-        [HttpPost]
-        [Route("update")]
-        public IActionResult UpdatePass([FromBody] PassUpdate passUpdate)
+        [HttpGet("passes/{passTypeId}/{serialNumber}")]
+        public async Task<IActionResult> GetLatestPass(string passTypeId, string serialNumber)
         {
             try
             {
-                Console.WriteLine($"Pass updated: {passUpdate.SerialNumber}");
-                return Ok("Pass update sent.");
+                Console.WriteLine($"GetLatestPass: {passTypeId} {serialNumber}");
+                return Ok();
             }
             catch (Exception ex)
             {
@@ -98,14 +60,18 @@ namespace SIHOT.Wallet.API.Controllers
             }
         }
 
-        [HttpPost]
-        [Route("revoke")]
-        public IActionResult RevokePass([FromBody] PassRevokeRequest passRevokeRequest)
+        [HttpPost("devices/{deviceLibraryId}/registrations/{passTypeId}/{serialNumber}")]
+        public async Task<IActionResult> RegisterDevice(
+            string deviceLibraryId,
+            string passTypeId,
+            string serialNumber,
+            [FromBody] DeviceRegistration registration)
         {
             try
             {
-                Console.WriteLine($"Pass revoked: {passRevokeRequest.SerialNumber}");
-                return Ok("Pass has been revoked.");
+                Console.WriteLine($"RegisterDevice: {deviceLibraryId} {passTypeId} {serialNumber} {registration.PushToken}");
+
+                return StatusCode(201);
             }
             catch (Exception ex)
             {
@@ -114,14 +80,35 @@ namespace SIHOT.Wallet.API.Controllers
             }
         }
 
-        [HttpPost]
-        [Route("sendnotification")]
-        public IActionResult SendPushNotification([FromBody] PushNotification pushNotification)
+        [HttpDelete("devices/{deviceLibraryId}/registrations/{passTypeId}/{serialNumber}")]
+        public async Task<IActionResult> UnregisterDevice(
+            string deviceLibraryId,
+            string passTypeId,
+            string serialNumber)
         {
             try
             {
-                Console.WriteLine($"Push notification sent: {pushNotification.DeviceLibraryIdentifier}");
-                return Ok("Push notification sent.");
+                Console.WriteLine($"UnregisterDevice: {deviceLibraryId} {passTypeId} {serialNumber}");
+
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        [HttpGet("devices/{deviceLibraryId}/registrations/{passTypeId}")]
+        public async Task<IActionResult> GetSerialNumbers(
+            string deviceLibraryId,
+            string passTypeId)
+        {
+            try
+            {
+                Console.WriteLine($"GetSerialNumbers: {deviceLibraryId} {passTypeId}");
+
+                return Ok();
             }
             catch (Exception ex)
             {
@@ -130,31 +117,9 @@ namespace SIHOT.Wallet.API.Controllers
             }
         }
     }
-    public class PushNotificationRegistration
+
+    public class DeviceRegistration
     {
-        public string? PassTypeIdentifier { get; set; }
-        public string? DeviceLibraryIdentifier { get; set; }
         public string? PushToken { get; set; }
-    }
-
-    public class PassUpdate
-    {
-        public string? PassTypeIdentifier { get; set; }
-        public string? SerialNumber { get; set; }
-        public List<string>? UpdatedFields { get; set; }
-    }
-
-    public class PassRevokeRequest
-    {
-        public string? PassTypeIdentifier { get; set; }
-        public string? SerialNumber { get; set; }
-    }
-
-    public class PushNotification
-    {
-        public string? DeviceLibraryIdentifier { get; set; }
-        public string? PushToken { get; set; }
-        public string? Message { get; set; }
-        public string? Action { get; set; }
     }
 }

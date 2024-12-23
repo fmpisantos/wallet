@@ -19,6 +19,12 @@ namespace SIHOT.Wallet.API.Models
         [JsonProperty("organizationName")]
         public string OrganizationName { get; set; } = "";
 
+        [JsonProperty("webServiceURL")]
+        public string WebServiceURL { get; set; } = "";
+
+        [JsonProperty("authenticationToken")]
+        public string AuthenticationToken { get; set; } = "";
+
         [JsonProperty("description")]
         public string Description { get; set; } = "";
 
