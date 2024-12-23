@@ -20,6 +20,7 @@ namespace SIHOT.Wallet.API.Controllers
         {
             try
             {
+                Console.WriteLine($"PostCreateGuestPass: {pass.SerialNumber}");
                 var passBytes = _passService.CreateGuestPassFile(pass);
                 return File(passBytes, "application/vnd.apple.pkpass", "guestPass.pkpass");
             }
@@ -35,6 +36,7 @@ namespace SIHOT.Wallet.API.Controllers
         {
             try
             {
+                Console.WriteLine($"GetGuestPass: {guestPass.SerialNumber}");
                 var passBytes = _passService.CreateGuestPassFile(guestPass);
                 return File(passBytes, "application/vnd.apple.pkpass", "guestPass.pkpass");
             }
