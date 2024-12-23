@@ -1,0 +1,726 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "SIHOT.Wallet API",
+    "description": "SIHOT.Wallet API is a middleware to connect to different wallet services.",
+    "contact": {
+      "name": "Nuno Pedro",
+      "url": "https://www.sihot.com",
+      "email": "n.pedro@sihot.com"
+    },
+    "version": "1.0"
+  },
+  "paths": {
+    "/v1/apple/guestpass": {
+      "get": {
+        "tags": [
+          "Apple"
+        ],
+        "parameters": [
+          {
+            "name": "data",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Apple"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GuestPassRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GuestPassRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/GuestPassRequest"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/GuestPassRequest"
+              }
+            },
+            "text/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/GuestPassRequest"
+              }
+            },
+            "application/*+xml": {
+              "schema": {
+                "$ref": "#/components/schemas/GuestPassRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/v1/google/guestpass": {
+      "get": {
+        "tags": [
+          "Google"
+        ],
+        "parameters": [
+          {
+            "name": "data",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "302": {
+            "description": "Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Google"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GuestPassRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GuestPassRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/GuestPassRequest"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/GuestPassRequest"
+              }
+            },
+            "text/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/GuestPassRequest"
+              }
+            },
+            "application/*+xml": {
+              "schema": {
+                "$ref": "#/components/schemas/GuestPassRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/Notifications/update": {
+      "post": {
+        "tags": [
+          "Notifications"
+        ],
+        "parameters": [
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/S_PERSON_COMPLETE_PUSH_V001Notification"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/S_PERSON_COMPLETE_PUSH_V001Notification"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/S_PERSON_COMPLETE_PUSH_V001Notification"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/S_PERSON_COMPLETE_PUSH_V001Notification"
+              }
+            },
+            "text/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/S_PERSON_COMPLETE_PUSH_V001Notification"
+              }
+            },
+            "application/*+xml": {
+              "schema": {
+                "$ref": "#/components/schemas/S_PERSON_COMPLETE_PUSH_V001Notification"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "GuestPassRequest": {
+        "required": [
+          "callback",
+          "firstName",
+          "guestId",
+          "hotel",
+          "lastName"
+        ],
+        "type": "object",
+        "properties": {
+          "hotel": {
+            "$ref": "#/components/schemas/Hotel"
+          },
+          "callback": {
+            "type": "string",
+            "nullable": true
+          },
+          "guestId": {
+            "type": "string",
+            "nullable": true
+          },
+          "firstName": {
+            "type": "string",
+            "nullable": true
+          },
+          "lastName": {
+            "type": "string",
+            "nullable": true
+          },
+          "resNr": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "resUnr": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "room": {
+            "type": "string",
+            "nullable": true
+          },
+          "from": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "fromTime": {
+            "type": "string",
+            "nullable": true
+          },
+          "to": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "toTime": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Hotel": {
+        "required": [
+          "address",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "address": {
+            "type": "string",
+            "nullable": true
+          },
+          "latitude": {
+            "type": "number",
+            "format": "double"
+          },
+          "longitude": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "S_PERSON_COMPLETE_PUSH_V001Notification": {
+        "type": "object",
+        "properties": {
+          "autotask": {
+            "$ref": "#/components/schemas/S_PERSON_COMPLETE_PUSH_V001NotificationAUTOTASK"
+          }
+        },
+        "additionalProperties": false
+      },
+      "S_PERSON_COMPLETE_PUSH_V001NotificationAUTOTASK": {
+        "type": "object",
+        "properties": {
+          "taskobjid": {
+            "type": "string",
+            "nullable": true
+          },
+          "person": {
+            "$ref": "#/components/schemas/S_PERSON_COMPLETE_PUSH_V001NotificationAUTOTASKPERSON"
+          }
+        },
+        "additionalProperties": false
+      },
+      "S_PERSON_COMPLETE_PUSH_V001NotificationAUTOTASKPERSON": {
+        "type": "object",
+        "properties": {
+          "personobjid": {
+            "type": "string",
+            "nullable": true
+          },
+          "persontype": {
+            "type": "string",
+            "nullable": true
+          },
+          "name1": {
+            "type": "string",
+            "nullable": true
+          },
+          "name2": {
+            "type": "string",
+            "nullable": true
+          },
+          "sex": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "birthdate": {
+            "type": "string",
+            "nullable": true
+          },
+          "address": {
+            "type": "string",
+            "nullable": true
+          },
+          "country": {
+            "type": "string",
+            "nullable": true
+          },
+          "city": {
+            "type": "string",
+            "nullable": true
+          },
+          "street": {
+            "type": "string",
+            "nullable": true
+          },
+          "postcode": {
+            "type": "string",
+            "nullable": true
+          },
+          "subcountry": {
+            "type": "string",
+            "nullable": true
+          },
+          "marketsegment": {
+            "type": "string",
+            "nullable": true
+          },
+          "salutation": {
+            "type": "string",
+            "nullable": true
+          },
+          "email1": {
+            "type": "string",
+            "nullable": true
+          },
+          "mobile1": {
+            "type": "string",
+            "nullable": true
+          },
+          "ratecategory": {
+            "type": "string",
+            "nullable": true
+          },
+          "datefrom": {
+            "type": "string",
+            "nullable": true
+          },
+          "arrivaltime": {
+            "type": "string",
+            "nullable": true
+          },
+          "dateto": {
+            "type": "string",
+            "nullable": true
+          },
+          "departuretime": {
+            "type": "string",
+            "nullable": true
+          },
+          "vip": {
+            "type": "string",
+            "nullable": true
+          },
+          "vip2": {
+            "type": "string",
+            "nullable": true
+          },
+          "personStatus": {
+            "type": "string",
+            "nullable": true
+          },
+          "nationality": {
+            "type": "string",
+            "nullable": true
+          },
+          "housekeepinggreenoptiondays": {
+            "type": "string",
+            "nullable": true
+          },
+          "qrcode": {
+            "type": "string",
+            "nullable": true
+          },
+          "externalqrcode": {
+            "type": "string",
+            "nullable": true
+          },
+          "hasprecheckin": {
+            "type": "string",
+            "nullable": true
+          },
+          "hasprecheckout": {
+            "type": "string",
+            "nullable": true
+          },
+          "salescategory": {
+            "type": "string",
+            "nullable": true
+          },
+          "room": {
+            "type": "string",
+            "nullable": true
+          },
+          "guestids": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/S_PERSON_COMPLETE_PUSH_V001NotificationAUTOTASKPERSONGUESTID"
+            },
+            "nullable": true
+          },
+          "loyaltycards": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/S_PERSON_COMPLETE_PUSH_V001NotificationAUTOTASKPERSONLOYALTYCARD"
+            },
+            "nullable": true
+          },
+          "guest": {
+            "$ref": "#/components/schemas/S_PERSON_COMPLETE_PUSH_V001NotificationAUTOTASKPERSONGUEST"
+          },
+          "registrationcard": {
+            "$ref": "#/components/schemas/S_PERSON_COMPLETE_PUSH_V001NotificationAUTOTASKPERSONREGISTRATIONCARD"
+          },
+          "personpackages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/S_PERSON_COMPLETE_PUSH_V001NotificationAUTOTASKPERSONPERSONPACKAGE"
+            },
+            "nullable": true
+          },
+          "amenities": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/S_PERSON_COMPLETE_PUSH_V001NotificationAUTOTASKPERSONAMENITY"
+            },
+            "nullable": true
+          },
+          "doorlock": {
+            "$ref": "#/components/schemas/S_PERSON_COMPLETE_PUSH_V001NotificationAUTOTASKPERSONDOORLOCK"
+          },
+          "wallet": {
+            "$ref": "#/components/schemas/S_PERSON_COMPLETE_PUSH_V001NotificationAUTOTASKPERSONWALLET"
+          },
+          "reservation": {
+            "$ref": "#/components/schemas/S_PERSON_COMPLETE_PUSH_V001NotificationAUTOTASKPERSONRESERVATION"
+          }
+        },
+        "additionalProperties": false
+      },
+      "S_PERSON_COMPLETE_PUSH_V001NotificationAUTOTASKPERSONAMENITY": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "nullable": true
+          },
+          "amenity": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "S_PERSON_COMPLETE_PUSH_V001NotificationAUTOTASKPERSONDOORLOCK": {
+        "type": "object",
+        "properties": {
+          "pin": {
+            "type": "string",
+            "nullable": true
+          },
+          "pinvaliduntildate": {
+            "type": "string",
+            "nullable": true
+          },
+          "pinvaliduntiltime": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "S_PERSON_COMPLETE_PUSH_V001NotificationAUTOTASKPERSONGUEST": {
+        "type": "object",
+        "properties": {
+          "guestobjid": {
+            "type": "string",
+            "nullable": true
+          },
+          "guestcentralid": {
+            "type": "string",
+            "nullable": true
+          },
+          "language": {
+            "type": "string",
+            "nullable": true
+          },
+          "location2": {
+            "type": "string",
+            "nullable": true
+          },
+          "savecontactdata": {
+            "type": "string",
+            "nullable": true
+          },
+          "phone1": {
+            "type": "string",
+            "nullable": true
+          },
+          "matchcode": {
+            "type": "string",
+            "nullable": true
+          },
+          "documentnumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "documenttype": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "S_PERSON_COMPLETE_PUSH_V001NotificationAUTOTASKPERSONGUESTID": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "number": {
+            "type": "string",
+            "nullable": true
+          },
+          "validfrom": {
+            "type": "string",
+            "nullable": true
+          },
+          "validuntil": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "S_PERSON_COMPLETE_PUSH_V001NotificationAUTOTASKPERSONLOYALTYCARD": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "number": {
+            "type": "string",
+            "nullable": true
+          },
+          "level": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "string",
+            "nullable": true
+          },
+          "validfrom": {
+            "type": "string",
+            "nullable": true
+          },
+          "validuntil": {
+            "type": "string",
+            "nullable": true
+          },
+          "cardtext": {
+            "type": "string",
+            "nullable": true
+          },
+          "externalreference": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "S_PERSON_COMPLETE_PUSH_V001NotificationAUTOTASKPERSONPERSONPACKAGE": {
+        "type": "object",
+        "properties": {
+          "personpackageobjid": {
+            "type": "string",
+            "nullable": true
+          },
+          "service": {
+            "type": "string",
+            "nullable": true
+          },
+          "datefrom": {
+            "type": "string",
+            "nullable": true
+          },
+          "dateto": {
+            "type": "string",
+            "nullable": true
+          },
+          "quantity": {
+            "type": "string",
+            "nullable": true
+          },
+          "priceperunit": {
+            "type": "string",
+            "nullable": true
+          },
+          "totalprice": {
+            "type": "string",
+            "nullable": true
+          },
+          "currency": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "S_PERSON_COMPLETE_PUSH_V001NotificationAUTOTASKPERSONREGISTRATIONCARD": {
+        "type": "object",
+        "properties": {
+          "registrationcardobjid": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "S_PERSON_COMPLETE_PUSH_V001NotificationAUTOTASKPERSONRESERVATION": {
+        "type": "object",
+        "properties": {
+          "reservationobjid": {
+            "type": "string",
+            "nullable": true
+          },
+          "centralid": {
+            "type": "string",
+            "nullable": true
+          },
+          "resno": {
+            "type": "string",
+            "nullable": true
+          },
+          "subno": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "S_PERSON_COMPLETE_PUSH_V001NotificationAUTOTASKPERSONWALLET": {
+        "type": "object",
+        "properties": {
+          "googlewalletpassurl": {
+            "type": "string",
+            "nullable": true
+          },
+          "applewalletpassurl": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}

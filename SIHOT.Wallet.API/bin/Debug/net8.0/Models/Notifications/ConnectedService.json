@@ -1,0 +1,16 @@
+{
+  "ExtendedData": {
+    "inputs": [
+      "../../../../src/develop4/env/etc/crossbow/notification/wsdl/S_PUSH_NOTIFICATIONS_WALLET_V001.wsdl"
+    ],
+    "collectionTypes": [
+      "System.Array",
+      "System.Collections.Generic.Dictionary`2"
+    ],
+    "namespaceMappings": [
+      "*, SIHOTNotifications"
+    ],
+    "targetFramework": "net8.0",
+    "typeReuseMode": "All"
+  }
+}
