@@ -1,7 +1,5 @@
 using SIHOT.Wallet.API.Configs;
 using SIHOT.Wallet.API.Services;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Hosting;
 using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
