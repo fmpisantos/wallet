@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using SIHOT.Wallet.API.Models;
 using SIHOT.Wallet.API.Services;
 

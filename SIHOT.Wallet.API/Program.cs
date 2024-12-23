@@ -1,5 +1,8 @@
 using SIHOT.Wallet.API.Configs;
 using SIHOT.Wallet.API.Services;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
+using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -44,5 +47,11 @@ app.UseCors("AllowAllOrigins");
 app.UseAuthorization();
 
 app.MapControllers();
+
+// Configure Kestrel to listen on all IPs (0.0.0.0) and a specific port (e.g., 5143)
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.Listen(IPAddress.Any, 5143); // Listen on all network interfaces on port 5143
+});
 
 app.Run();
