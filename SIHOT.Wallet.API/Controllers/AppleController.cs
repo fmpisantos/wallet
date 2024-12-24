@@ -118,6 +118,22 @@ namespace SIHOT.Wallet.API.Controllers
                 return StatusCode(500, "Internal server error");
             }
         }
+
+        [HttpGet("log")]
+        public IActionResult GetLog()
+        {
+            try
+            {
+                Console.WriteLine("GetLog");
+
+                return Ok("Log");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return StatusCode(500, "Internal server error");
+            }
+        }
     }
 
     public class DeviceRegistration

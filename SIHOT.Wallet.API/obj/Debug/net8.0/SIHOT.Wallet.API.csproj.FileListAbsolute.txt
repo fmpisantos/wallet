@@ -202,3 +202,4 @@ D:/sihot.wallet.api/SIHOT.Wallet.API/bin/Debug/net8.0/Models/Notifications/Conne
 /Users/fmpi.santos/Projects/wallet/SIHOT.Wallet.API/obj/Debug/net8.0/SIHOT.Wallet.API.pdb
 /Users/fmpi.santos/Projects/wallet/SIHOT.Wallet.API/obj/Debug/net8.0/SIHOT.Wallet.API.genruntimeconfig.cache
 /Users/fmpi.santos/Projects/wallet/SIHOT.Wallet.API/obj/Debug/net8.0/ref/SIHOT.Wallet.API.dll
+/Users/fmpi.santos/Projects/wallet/SIHOT.Wallet.API/obj/Debug/net8.0/SIHOT.Wallet.API.sourcelink.json
