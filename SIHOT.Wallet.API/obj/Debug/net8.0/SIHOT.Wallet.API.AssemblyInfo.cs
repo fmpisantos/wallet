@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SIHOT.Wallet.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9c36f0ed1c87d966ebe9b76e85f048ed5836cdd0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a5569040db9e9013fabaeddf3ef5ef32707880e7")]
 [assembly: System.Reflection.AssemblyProductAttribute("SIHOT.Wallet.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SIHOT.Wallet.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

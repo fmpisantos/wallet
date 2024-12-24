@@ -19,6 +19,16 @@ namespace SIHOT.Wallet.API.Configs
             instance.LoadPlatformSpecificSecrets(configuration, platform);
         }
 
+        internal static void LoadEnvironmentVariables(IConfiguration configuration, string platform)
+        {
+            PrivateKeyId = Environment.GetEnvironmentVariable($"{platform}__private_key_id") ?? "";
+            PrivateKey = Environment.GetEnvironmentVariable($"{platform}__private_key") ?? "";
+            Console.WriteLine(PrivateKeyId);
+            Console.WriteLine(PrivateKey);
+            var instance = new T();
+            instance.LoadPlatformSpecificSecrets(configuration, platform);
+        }
+
         internal virtual void LoadPlatformSpecificSecrets(IConfiguration configuration, string platform) { }
     }
 }

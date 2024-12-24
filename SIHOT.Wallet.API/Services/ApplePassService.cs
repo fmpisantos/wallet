@@ -56,7 +56,7 @@ namespace SIHOT.Wallet.API.Services
                 TeamIdentifier = AppleWalletConfig.TeamIdentifier,
                 OrganizationName = AppleWalletConfig.OrganizationName,
                 WebServiceURL = AppleWalletConfig.WebServiceURL,
-                AuthenticationToken = GenerateAuthToken(guestPass.SerialNumber).Result,
+                AuthenticationToken = guestPass.Qrcodecontent,
                 Description = description,
                 LogoText = logoText,
                 ForegroundColor = ForegroundColor,

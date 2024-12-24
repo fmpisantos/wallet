@@ -30,8 +30,10 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-AppleWalletConfig.LoadSecrets(app.Configuration, "Apple");
-GoogleWalletConfig.LoadSecrets(app.Configuration, "Google");
+builder.Configuration.AddEnvironmentVariables();
+
+AppleWalletConfig.LoadEnvironmentVariables(app.Configuration, "Apple");
+GoogleWalletConfig.LoadEnvironmentVariables(app.Configuration, "Google");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
