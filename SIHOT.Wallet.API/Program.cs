@@ -32,7 +32,9 @@ var app = builder.Build();
 
 builder.Configuration.AddEnvironmentVariables();
 
+Console.WriteLine("Apple Config");
 AppleWalletConfig.LoadEnvironmentVariables(app.Configuration, "Apple");
+Console.WriteLine("Google Config");
 GoogleWalletConfig.LoadEnvironmentVariables(app.Configuration, "Google");
 
 // Configure the HTTP request pipeline.

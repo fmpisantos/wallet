@@ -6,7 +6,6 @@ using Org.BouncyCastle.OpenSsl;
 using Org.BouncyCastle.X509;
 using Org.BouncyCastle.X509.Store;
 using SIHOT.Wallet.API.Configs;
-using SIHOT.Wallet.API.Services;
 using System.IO.Compression;
 using System.Security.Cryptography;
 using System.Text;
@@ -27,6 +26,7 @@ namespace SIHOT.Wallet.API.Models.Apple
 
         public byte[] GeneratePkPass()
         {
+            Console.WriteLine("GeneratePkPass");
             using (MemoryStream zipMemoryStream = new MemoryStream())
             {
                 using (ZipArchive zipArchive = new ZipArchive(zipMemoryStream, ZipArchiveMode.Create, true))
@@ -90,20 +90,30 @@ namespace SIHOT.Wallet.API.Models.Apple
 
         private void GenerateSignature(ZipArchive zipArchive, byte[] manifestData)
         {
+            Console.WriteLine("GenerateSignature");
             X509Certificate signerCert = LoadCertificateFromString(AppleWalletConfig.PrivateKeyId);
+            Console.WriteLine("Signer certificate loaded");
             AsymmetricKeyParameter signerKey = LoadPrivateKeyFromString(AppleWalletConfig.PrivateKey, AppleWalletConfig.KeyPassphrase);
+            Console.WriteLine("Signer key loaded");
             X509Certificate additionalCert = LoadCertificate(AppleWalletConfig.WWDRPath);
+            Console.WriteLine("Certificates loaded");
 
             CmsProcessableByteArray msg = new CmsProcessableByteArray(manifestData);
             CmsSignedDataGenerator signer = new CmsSignedDataGenerator();
             signer.AddSigner(signerKey, signerCert, CmsSignedDataGenerator.DigestSha256);
+            Console.WriteLine("Signer added");
 
             List<X509Certificate> certList = new List<X509Certificate> { signerCert, additionalCert };
             signer.AddCertificates(X509StoreFactory.Create("Certificate/Collection", new X509CollectionStoreParameters(certList)));
+            Console.WriteLine("Certificates added");
 
             CmsSignedData signedData = signer.Generate(msg, true);
 
+            Console.WriteLine("Signed data generated");
+
             ZipArchiveEntry manifestEntry = zipArchive.CreateEntry("signature");
+
+            Console.WriteLine("Signature entry created");
 
             byte[] signature = signedData.GetEncoded();
 
@@ -111,6 +121,8 @@ namespace SIHOT.Wallet.API.Models.Apple
             {
                 entryStream.Write(signature, 0, signature.Length);
             }
+
+            Console.WriteLine("End GenerateSignature");
         }
 
         private X509Certificate LoadCertificate(string path)
@@ -136,6 +148,7 @@ namespace SIHOT.Wallet.API.Models.Apple
                 throw new ArgumentException("Invalid certificate format: END CERTIFICATE marker not found");
             }
 
+            Console.WriteLine("Certificate data found");
             string base64Data = certificateData.Substring(startIndex, endIndex - startIndex)
                 .Replace("\n", "")
                 .Replace("\r", "")
@@ -148,9 +161,10 @@ namespace SIHOT.Wallet.API.Models.Apple
             }
         }
 
-        private X509Certificate LoadCertificate(Stream stream){
-                var certParser = new X509CertificateParser();
-                return certParser.ReadCertificate(stream);
+        private X509Certificate LoadCertificate(Stream stream)
+        {
+            var certParser = new X509CertificateParser();
+            return certParser.ReadCertificate(stream);
         }
 
         private AsymmetricKeyParameter LoadPrivateKey(string path, string passphrase)
@@ -171,29 +185,29 @@ namespace SIHOT.Wallet.API.Models.Apple
 
         private AsymmetricKeyParameter LoadPrivateKey(TextReader reader, string passphrase)
         {
-                var pemReader = new PemReader(reader, new PasswordFinder(passphrase));
-                object keyObject = pemReader.ReadObject();
+            var pemReader = new PemReader(reader, new PasswordFinder(passphrase));
+            object keyObject = pemReader.ReadObject();
 
-                if (keyObject is AsymmetricCipherKeyPair keyPair)
+            if (keyObject is AsymmetricCipherKeyPair keyPair)
+            {
+                var rsaPrivateParams = keyPair.Private as RsaPrivateCrtKeyParameters;
+                if (rsaPrivateParams != null)
                 {
-                    var rsaPrivateParams = keyPair.Private as RsaPrivateCrtKeyParameters;
-                    if (rsaPrivateParams != null)
-                    {
-                        return rsaPrivateParams;
-                    }
-                    else
-                    {
-                        throw new InvalidCastException("Private key is not of type RsaPrivateCrtKeyParameters");
-                    }
-                }
-                else if (keyObject is AsymmetricKeyParameter keyParam)
-                {
-                    return keyParam;
+                    return rsaPrivateParams;
                 }
                 else
                 {
-                    throw new InvalidCastException("Unknown key object type");
+                    throw new InvalidCastException("Private key is not of type RsaPrivateCrtKeyParameters");
                 }
+            }
+            else if (keyObject is AsymmetricKeyParameter keyParam)
+            {
+                return keyParam;
+            }
+            else
+            {
+                throw new InvalidCastException("Unknown key object type");
+            }
         }
 
         private class PasswordFinder : IPasswordFinder

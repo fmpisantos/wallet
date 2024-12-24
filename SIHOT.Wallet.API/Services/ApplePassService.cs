@@ -30,16 +30,6 @@ namespace SIHOT.Wallet.API.Services
             return filePath;
         }
 
-        private async Task<string> GenerateAuthToken(string serialNumber)
-        {
-            var timestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-            var dataToHash = $"{serialNumber}:{timestamp}:{AppleWalletConfig.TeamIdentifier}";
-
-            using var sha = System.Security.Cryptography.SHA256.Create();
-            var hashBytes = sha.ComputeHash(Encoding.UTF8.GetBytes(dataToHash));
-            return Convert.ToBase64String(hashBytes);
-        }
-
         private ApplePassBuilder CreateBuilderAsync(GuestPass guestPass)
         {
             string description = "Guest pass";
@@ -48,6 +38,8 @@ namespace SIHOT.Wallet.API.Services
             string BackgroundColor = AppleWalletConfig.BackgroundColor;
             string LabelColor = AppleWalletConfig.LabelColor;
             string assetsSource = Path.Combine(Environment.CurrentDirectory, "assets");
+
+            Console.WriteLine($"CreateBuilderAsync: {guestPass.SerialNumber}");
 
             Pass pass = new Pass
             {
